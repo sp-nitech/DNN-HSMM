@@ -7,7 +7,7 @@
 - numpy
 - pytorch >= 1.6 (https://pytorch.org/)
 - GNU parallel
-- SPTK (http://sp-tk.sourceforge.net/)
+- SPTK == 3.11 (http://sp-tk.sourceforge.net/)
 
 # Usage
 - By running 00_data.sh, you can create serialized training and test data (npz) from pre-prepared linguistic and acoustic features (lab, lf0, mgc, bap). Directory names (dnames) and dimentions (dims) written in 00_data.sh need to be modified.
