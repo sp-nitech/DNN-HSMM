@@ -16,8 +16,8 @@ def main():
              'test' : sorted(list(pathlib.Path(dnames['test']).glob('*.npz')))}
         return F
 
-    def get_dataloader(fnames, N, bmask_data_mergin, device, batch_size, num_workers=1, shuffle=False, drop_last=False, keep_load_data=False):
-        dataloader = DataLoader(DataSet(fnames, N, bmask_data_mergin, keep_load_data), pin_memory=True, num_workers=num_workers, batch_size=batch_size, shuffle=shuffle, drop_last=drop_last, collate_fn=DataCollate())
+    def get_dataloader(fnames, N, bmask_data_mergin, device, batch_size, num_workers=1, shuffle=False, drop_last=False):
+        dataloader = DataLoader(DataSet(fnames, N, bmask_data_mergin), pin_memory=True, num_workers=num_workers, batch_size=batch_size, shuffle=shuffle, drop_last=drop_last, collate_fn=DataCollate())
         return dataloader
 
     def init_model(dim, normfac, classnums, embeddims, N, max_state_dur, output_initial_bias, device):

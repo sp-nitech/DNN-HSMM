@@ -4,12 +4,10 @@ from torch.utils.data import Dataset
 from .utils import magic_number
 
 class DataSet(Dataset):
-    def __init__(self, fnames, N, mergin, keep_data):
+    def __init__(self, fnames, N, mergin):
         self.fnames = fnames
         self.N = N
         self.mergin = mergin
-        self.keep_data = keep_data
-        self.D = {}
 
     def __getitem__(self, idx):
         def _trim(D):
@@ -77,16 +75,11 @@ class DataSet(Dataset):
             return None
 
         fname = self.fnames[idx]
-        if fname in self.D:
-            X, A, T, M = self.D[fname]
-        else:
-            D = numpy.load(fname, allow_pickle=True)
-            X = X = _add_state_idx(D['lab'])
-            A = D['incode'].astype(numpy.int64) if 'incode' in D else numpy.array([0], numpy.int64)
-            T = numpy.hstack(_trim([_lf02vuv(D['lf0']), _lf02iplf0(D['lf0']), D['mgc'], D['bap']]))
-            M = (_make_bmask(D['dur_phn'], self.N, T.shape[0], self.mergin) if 'dur_phn' in D else None, _mask_dmask())
-            if self.keep_data:
-                self.D[fname] = (X, A, T)
+        D = numpy.load(fname, allow_pickle=True)
+        X = X = _add_state_idx(D['lab'])
+        A = D['incode'].astype(numpy.int64) if 'incode' in D else numpy.array([0], numpy.int64)
+        T = numpy.hstack(_trim([_lf02vuv(D['lf0']), _lf02iplf0(D['lf0']), D['mgc'], D['bap']]))
+        M = (_make_bmask(D['dur_phn'], self.N, T.shape[0], self.mergin) if 'dur_phn' in D else None, _mask_dmask())
 
         X, A, T, M = torch.from_numpy(X), torch.from_numpy(A), torch.from_numpy(T), (torch.from_numpy(M[0]) if M[0] is not None else None, torch.from_numpy(M[1]) if M[1] is not None else None)
 
