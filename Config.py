@@ -55,8 +55,7 @@ hp = {}
 for i in range(20):
     hp['stepM'+str(i).zfill(2)] = {'data': {'batch_size': 5,
                                             'num_workers': 4,
-                                            'bmask_data_mergin': None,
-                                            'keep_load_data': False},
+                                            'bmask_data_mergin': None},
                                    'model' : {'mask_x': None,
                                               'temperature': ((i + 1.0) / 20.0) ** 2},
                                    'optimizer': {'lr': 0.0001},
