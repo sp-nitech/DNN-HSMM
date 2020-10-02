@@ -76,7 +76,7 @@ class DataSet(Dataset):
 
         fname = self.fnames[idx]
         D = numpy.load(fname, allow_pickle=True)
-        X = X = _add_state_idx(D['lab'])
+        X = _add_state_idx(D['lab'])
         A = D['incode'].astype(numpy.int64) if 'incode' in D else numpy.array([0], numpy.int64)
         T = numpy.hstack(_trim([_lf02vuv(D['lf0']), _lf02iplf0(D['lf0']), D['mgc'], D['bap']]))
         M = (_make_bmask(D['dur_phn'], self.N, T.shape[0], self.mergin) if 'dur_phn' in D else None, _mask_dmask())
