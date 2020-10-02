@@ -88,9 +88,9 @@ def main():
             for n in ckpt_iternums[:-1]:
                 pathlib.Path(ckptdir+'/checkpoint_'+str(n)).unlink()
 
-        B = get_dataloader(F['trn'], N, device=device, shuffle=True, drop_last=True, **hp['data'])
         model, optimizer, siter = load_checkpoint(ckptdir, model, optimizer, siter=0)
         if not pathlib.Path(ckptdir+'/training_done').exists():
+            B = get_dataloader(F['trn'], N, device=device, shuffle=True, drop_last=True, **hp['data'])
             run(ckptdir, B, model, optimizer, siter, **hp['trn'])
         if hp['clean']:
             clean_checkpoint(ckptdir)
