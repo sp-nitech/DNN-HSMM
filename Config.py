@@ -4,7 +4,6 @@ from module.delta import n_win
 # directory
 prjdir = '.'
 datadir = {'trn' : prjdir + '/data/trn',
-           'val' : prjdir + '/data/val',
            'test': prjdir + '/data/test'}
 normfacdir = prjdir + '/normfac'
 ckptdir = prjdir + '/ckpt'

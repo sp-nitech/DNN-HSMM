@@ -12,7 +12,6 @@ def main():
 
     def get_fnames(dnames):
         F = {'trn'  : sorted(list(pathlib.Path(dnames['trn']).glob('*.npz'))),
-             'val'  : sorted(list(pathlib.Path(dnames['val']).glob('*.npz'))),
              'test' : sorted(list(pathlib.Path(dnames['test']).glob('*.npz')))}
         return F
 
