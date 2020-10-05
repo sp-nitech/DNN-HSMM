@@ -5,6 +5,7 @@
 # Requirements
 - python >= 3.7
 - numpy
+- scipy
 - pytorch >= 1.6 (https://pytorch.org/)
 - GNU parallel
 - SPTK == 3.11 (http://sp-tk.sourceforge.net/)
