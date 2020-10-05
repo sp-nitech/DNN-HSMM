@@ -53,7 +53,7 @@ def main():
                 for X, A, T, M in B:
                     X, A, T, M = [x.to(device) for x in X], [a.to(device) for a in A], [t.to(device) for t in T], [(m0.to(device) if m0 is not None else None, m1.to(device) if m1 is not None else None) for m0, m1 in M]
                     optimizer.zero_grad()
-                    loss = model.loss(X, A, T, M)
+                    loss = model.forward(X, A, T, M)
                     loss.backward()
                     optimizer.step()
 

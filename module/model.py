@@ -52,15 +52,15 @@ class Model(nn.Module):
         self.ldv = nn.Linear(2048, N * 1)
 
         nn.init.zeros_(self.lbw.weight)
-        self.lbw.bias.data = torch.from_numpy(output_initial_bias['bw']).repeat(N).to(device)
+        self.lbw.bias.data = torch.from_numpy(output_initial_bias['bw']).repeat(N)
         nn.init.zeros_(self.lbm.weight)
-        self.lbm.bias.data = torch.from_numpy(output_initial_bias['bm']).repeat(N).to(device)
+        self.lbm.bias.data = torch.from_numpy(output_initial_bias['bm']).repeat(N)
         nn.init.zeros_(self.lbv.weight)
-        self.lbv.bias.data = torch.from_numpy(output_initial_bias['bv']).repeat(N).to(device)
+        self.lbv.bias.data = torch.from_numpy(output_initial_bias['bv']).repeat(N)
         nn.init.zeros_(self.ldm.weight)
-        self.ldm.bias.data = torch.from_numpy(output_initial_bias['dm']).repeat(N).to(device)
+        self.ldm.bias.data = torch.from_numpy(output_initial_bias['dm']).repeat(N)
         nn.init.zeros_(self.ldv.weight)
-        self.ldv.bias.data = torch.from_numpy(output_initial_bias['dv']).repeat(N).to(device)
+        self.ldv.bias.data = torch.from_numpy(output_initial_bias['dv']).repeat(N)
 
         self.to(device)
 
@@ -182,7 +182,7 @@ class Model(nn.Module):
         if 'weight_s' in hp:
             self._set_weight_s(hp['weight_s'])
 
-    def loss(self, X, A, T, M):
+    def forward(self, X, A, T, M):
         self.train()
         P = self._forward(X, A)
         loss = self._lossnorm(T) * self._loss(P, T, M)
