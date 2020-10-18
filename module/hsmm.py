@@ -160,7 +160,7 @@ _padded_generalized_forward_backward = PaddedGeneralizedForwardBackward.apply
 def _generalized_forward_backward(B, D, max_dur):
     def _padBD(B, D):
         TN = [b.shape for b in B]
-        maxN = max([b.shape[1] for b in B])
+        maxN = max([b.shape[1] for b in B]) + 1
         B = [torch.cat([torch.cat([b, torch.full((b.shape[0], maxN - b.shape[1]), -1.0e+10, dtype=b.dtype, device=b.device)], dim=1), torch.full((maxN - b.shape[1], maxN), -1.0e+10, dtype=b.dtype, device=b.device)], dim=0) for b in B]
         for b, (t, n) in zip(B, TN):
             b[t:, n:] = 0.0
