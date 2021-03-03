@@ -42,26 +42,26 @@ do
     cmd="python data/scripts/serialization.py"
     for feat in lab lf0 mgc bap
     do
-	cmd=$cmd" $feat ${dims[$feat]} ${dttype[$feat]} ${dnames[${feat}.${i}]}/{/.}.$feat"
+	cmd=$cmd" $feat ${dims[$feat]} ${dttype[$feat]} ${dnames[${feat}.${i}]}/{}.$feat"
     done
-    cmd=$cmd" data/$i/{/.}.npz"
-    parallel -a tmp/scp -j +0 "$cmd"
+    cmd=$cmd" data/$i/{}.npz"
+    cat tmp/scp | xargs -n 1 -I {} $cmd
 done
 
 # meansdev
 echo -0.5 0.0 0.5 | x2x +af > tmp/delta
 echo 1.0 -2.0 1.0 | x2x +af > tmp/accel
 find data/trn -name "*.npz" -exec basename {} .npz \; | sort -u > tmp/scp
-parallel -a tmp/scp -j +0 "python3 -c \"import sys, numpy; x = numpy.load('data/trn/{/.}.npz')['lab']; sys.stdout.buffer.write(x)\"" | vstat -l ${dims[lab]} -o 1 > tmp/meansdev/lab.mean
-parallel -a tmp/scp -j +0 "python3 -c \"import sys, numpy; x = numpy.load('data/trn/{/.}.npz')['lab']; sys.stdout.buffer.write(x)\"" | vstat -l ${dims[lab]} -o 2 -d | sopr -f 0.0 -R > tmp/meansdev/lab.sdev
+cat tmp/scp | xargs -P 1 -n 1 -I {} python3 -c "import sys, numpy; x = numpy.load('data/trn/{}.npz')['lab']; sys.stdout.buffer.write(x)" | vstat -l ${dims[lab]} -o 1 > tmp/meansdev/lab.mean
+cat tmp/scp | xargs -P 1 -n 1 -I {} python3 -c "import sys, numpy; x = numpy.load('data/trn/{}.npz')['lab']; sys.stdout.buffer.write(x)" | vstat -l ${dims[lab]} -o 2 -d | sopr -f 0.0 -R  > tmp/meansdev/lab.sdev
 echo 0 | x2x +af > tmp/meansdev/vuv.mean
 echo 1 | x2x +af > tmp/meansdev/vuv.sdev
-parallel -a tmp/scp -j +0 "python3 data/scripts/interpolate.py data/trn/{/.}.npz | delta -l ${dims[lf0]} -d tmp/delta -d tmp/accel" | vstat -l `expr 3 \* ${dims[lf0]}` -o 1 > tmp/meansdev/lf0.mean
-parallel -a tmp/scp -j +0 "python3 data/scripts/interpolate.py data/trn/{/.}.npz | delta -l ${dims[lf0]} -d tmp/delta -d tmp/accel" | vstat -l `expr 3 \* ${dims[lf0]}` -o 2 -d | sopr -f 0.0 -R > tmp/meansdev/lf0.sdev
+cat tmp/scp | xargs -P 1 -n 1 -I {} bash -c "python3 data/scripts/interpolate.py data/trn/{}.npz | delta -l ${dims[lf0]} -d tmp/delta -d tmp/accel" | vstat -l `expr 3 \* ${dims[lf0]}` -o 1 > tmp/meansdev/lf0.mean
+cat tmp/scp | xargs -P 1 -n 1 -I {} bash -c "python3 data/scripts/interpolate.py data/trn/{}.npz | delta -l ${dims[lf0]} -d tmp/delta -d tmp/accel" | vstat -l `expr 3 \* ${dims[lf0]}` -o 2 -d | sopr -f 0.0 -R > tmp/meansdev/lf0.sdev
 for feat in mgc bap
 do
-    parallel -a tmp/scp -j +0 "python3 -c \"import sys, numpy; x = numpy.load('data/trn/{/.}.npz')['$feat']; sys.stdout.buffer.write(x)\" | delta -l ${dims[$feat]} -d tmp/delta -d tmp/accel" | vstat -l `expr 3 \* ${dims[$feat]}` -o 1 > tmp/meansdev/$feat.mean
-    parallel -a tmp/scp -j +0 "python3 -c \"import sys, numpy; x = numpy.load('data/trn/{/.}.npz')['$feat']; sys.stdout.buffer.write(x)\" | delta -l ${dims[$feat]} -d tmp/delta -d tmp/accel" | vstat -l `expr 3 \* ${dims[$feat]}` -o 2 -d | sopr -f 0.0 -R > tmp/meansdev/$feat.sdev
+    cat tmp/scp | xargs -P 1 -n 1 -I {} bash -c "python3 -c \"import sys, numpy; x = numpy.load('data/trn/{}.npz')['$feat']; sys.stdout.buffer.write(x)\" | delta -l ${dims[$feat]} -d tmp/delta -d tmp/accel" | vstat -l `expr 3 \* ${dims[$feat]}` -o 1 > tmp/meansdev/$feat.mean
+    cat tmp/scp | xargs -P 1 -n 1 -I {} bash -c "python3 -c \"import sys, numpy; x = numpy.load('data/trn/{}.npz')['$feat']; sys.stdout.buffer.write(x)\" | delta -l ${dims[$feat]} -d tmp/delta -d tmp/accel" | vstat -l `expr 3 \* ${dims[$feat]}` -o 2 -d | sopr -f 0.0 -R > tmp/meansdev/$feat.sdev
 done
 cmd="python data/scripts/serialization.py"
 for i in lab vuv lf0 mgc bap

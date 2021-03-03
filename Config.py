@@ -44,7 +44,7 @@ normfac = {'ifeat': {'mean': numpy.concatenate([meansdev[k+'.mean'] for k in key
                      'sdev': numpy.concatenate([meansdev[k+'.sdev'] for k in keys['ofeat']])}}
 
 # training
-max_state_dur = 500 // (iN * oN)
+max_state_dur = 150
 output_initial_bias = {'bw': numpy.zeros(sum([wdim.stop - wdim.start for wdim, _ in dim['ofeat']]), numpy.float32),
                        'bm': numpy.zeros(n_win * sum([odim.stop - odim.start for _, odim in dim['ofeat']]), numpy.float32),
                        'bv': numpy.full(n_win * sum([odim.stop - odim.start for _, odim in dim['ofeat']]), numpy.log(numpy.array(1.0, numpy.float32))),
@@ -64,8 +64,7 @@ for i in range(20):
                                    'clean': True}
 hp['stepF00'] = {'data': {'batch_size': 5,
                           'num_workers': 4,
-                          'bmask_data_mergin': None,
-                          'keep_load_data': False},
+                          'bmask_data_mergin': None},
                  'model' : {'mask_x': None,
                             'temperature': 1.0},
                  'optimizer': {'lr': 0.0001},

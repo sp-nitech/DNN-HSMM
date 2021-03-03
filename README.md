@@ -7,7 +7,6 @@
 - numpy
 - scipy
 - pytorch >= 1.6 (https://pytorch.org/)
-- GNU parallel
 - SPTK == 3.11 (http://sp-tk.sourceforge.net/)
 
 # Usage
@@ -35,6 +34,8 @@ $ cp demo_data_English/Config.py .
 $ bash 00_data.sh
 $ python 01_run.py
 ```
+
+The acoustic features included in the demo data were extracted using STRAIGHT. Please see the HTS demo script (http://hts.sp.nitech.ac.jp/) for how to synthesize waveforms from acoustic features.
 
 # Who we are
 - Shinji Takaki (http://www.sp.nitech.ac.jp/~takaki/)
