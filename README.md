@@ -35,6 +35,8 @@ $ bash 00_data.sh
 $ python 01_run.py
 ```
 
+[demo samples](https://sp-nitech.github.io/DNN-HSMM)
+
 The acoustic features included in the demo data were extracted using STRAIGHT. Please see the HTS demo script (http://hts.sp.nitech.ac.jp/) for how to synthesize waveforms from acoustic features.
 
 # Who we are

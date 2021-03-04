@@ -31,7 +31,8 @@ def _lf02iplf0(x):
 
 def main():
     ifname = sys.argv[1]
-    x = numpy.load(ifname)['lf0']
+    with open(ifname, 'rb') as f:
+        x = numpy.frombuffer(f.read(), numpy.float32).reshape(-1, 1).copy()
     x = _lf02iplf0(x)
     sys.stdout.buffer.write(x)
 
