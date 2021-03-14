@@ -17,7 +17,7 @@
 - Japanese (m001)
 ```
 $ cd DNN-HSMM
-$ wget https://xxxx/demo_data_Japanese.tar.gz
+$ wget http://hts.sp.nitech.ac.jp/archives/DNN-HSMM_demo-data/demo_data_Japanese.tar.gz
 $ tar -zxvf demo_data_Japanese.tar.gz
 $ cp demo_data_Japanese/00_data.sh .
 $ cp demo_data_Japanese/Config.py .
@@ -27,7 +27,7 @@ $ python 01_run.py
 - English (slt)
 ```
 $ cd DNN-HSMM
-$ wget https://xxxx/demo_data_English.tar.gz
+$ wget http://hts.sp.nitech.ac.jp/archives/DNN-HSMM_demo-data/demo_data_English.tar.gz
 $ tar -zxvf demo_data_English.tar.gz
 $ cp demo_data_English/00_data.sh .
 $ cp demo_data_English/Config.py .
